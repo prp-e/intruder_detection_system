@@ -1,17 +1,33 @@
-import os
-import requests
-import time 
+import time
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
 
 
-#res = requests.get(f"https://tg.kootahkon.ir/bot{tg_token}/sendPhoto?chat_id=295600320&photo=https://9497-2a01-5ec0-e001-adbe-216a-285b-14ce-2cdd.ngrok.io/{picname}.jpg")
-before = before = dict ([(f, None) for f in os.listdir ('activities')])
-print(before)
+class Watcher:
+    def __init__(self, path):
+        self.observer = Observer()
+        self.path = path
 
-while True:
-    time.sleep(2)
-    after = dict ([(f, None) for f in os.listdir ('activities')])
-    added = [f for f in after if not f in before]
-    if len(added) > 0:
-        added = added.sort()
-        print(added[0])
-    before = after
+    def run(self):
+        event_handler = Handler()
+        self.observer.schedule(event_handler, self.path, recursive=True)
+        self.observer.start()
+        try:
+            while True:
+                time.sleep(1)
+        except:
+            self.observer.stop()
+            print("Error")
+
+        self.observer.join()
+
+
+class Handler(FileSystemEventHandler):
+    @staticmethod
+    def on_any_event(event):
+        if "jpg" in event.src_path:
+            print(event.src_path)
+
+if __name__ == "__main__":
+    w = Watcher(".")
+    w.run()
