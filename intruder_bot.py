@@ -28,7 +28,8 @@ class Handler(FileSystemEventHandler):
     def on_any_event(event):
         if "jpg" in event.src_path:
             print(event.src_path)
-            res = requests.get(f"https://tg.kootahkon.ir/bot{os.getenv('BOT_API')}/sendMessage?chat_id=295600320&text=Intruder entered the room. this is evidence:\n https://f2ad-2a01-5ec0-e001-adbe-216a-285b-14ce-2cdd.ngrok.io/{event.src_path}")
+            event = event.src_path.split('/')
+            res = requests.get(f"https://tg.kootahkon.ir/bot{os.getenv('BOT_API')}/sendMessage?chat_id=295600320&text=Intruder entered the room. this is evidence:\n https://f2ad-2a01-5ec0-e001-adbe-216a-285b-14ce-2cdd.ngrok.io/{event}")
 
 if __name__ == "__main__":
     w = Watcher("activities")
