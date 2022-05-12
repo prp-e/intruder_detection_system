@@ -31,5 +31,5 @@ class Handler(FileSystemEventHandler):
             res = requests.get(f"https://tg.kootahkon.ir/bot{os.getenv('BOT_API')}/sendPhoto?chat_id=295600320&photo=https://9497-2a01-5ec0-e001-adbe-216a-285b-14ce-2cdd.ngrok.io/{event.src_path}")
 
 if __name__ == "__main__":
-    w = Watcher(".")
+    w = Watcher("activities")
     w.run()
