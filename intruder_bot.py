@@ -1,7 +1,8 @@
+import os
 import time
+import requests
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
-
 
 class Watcher:
     def __init__(self, path):
@@ -27,6 +28,7 @@ class Handler(FileSystemEventHandler):
     def on_any_event(event):
         if "jpg" in event.src_path:
             print(event.src_path)
+            res = requests.get(f"https://tg.kootahkon.ir/bot{os.getenv('BOT_API')}/sendPhoto?chat_id=295600320&photo=https://9497-2a01-5ec0-e001-adbe-216a-285b-14ce-2cdd.ngrok.io/{event.src_path}")
 
 if __name__ == "__main__":
     w = Watcher(".")
