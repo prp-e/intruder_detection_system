@@ -1,8 +1,10 @@
 import cv2
+from datetime import datetime
 from uuid import uuid4
 import os
+import requests
 
-
+tg_token = os.getenv("BOT_API")
 
 cam = cv2.VideoCapture(1)
 first_frame = None
@@ -29,8 +31,8 @@ while cam.isOpened():
             (x, y, w, h) = cv2.boundingRect(c)
             #cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
             cv2.putText(frame, 'INTRUDER ACTIVIY',(0, 75), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2, cv2.LINE_AA)
-            cv2.imwrite(f'activities/{uuid4()}.jpg', frame)
-            os.system('python3 ./intruder_bot.py')
+            picname = f'{str(datetime.timestamp(datetime.now())).replace('.', '-')}-{uuid4()}'
+            cv2.imwrite(f'activities/{picname}.jpg', frame)
             
             
     cv2.imshow('Cam Footage', frame)
