@@ -1,5 +1,6 @@
 import os
 import time
+from datetime import datetime
 import requests
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
@@ -15,7 +16,7 @@ class Watcher:
         self.observer.start()
         try:
             while True:
-                time.sleep(5)
+                time.sleep(1)
         except:
             self.observer.stop()
             print("Error")
@@ -29,7 +30,7 @@ class Handler(FileSystemEventHandler):
         if "jpg" in event.src_path:
             print(event.src_path)
             event = event.src_path.split('/')
-            res = requests.get(f"https://tg.kootahkon.ir/bot{os.getenv('BOT_API')}/sendMessage?chat_id=295600320&text=Intruder entered the room. this is evidence:\n https://f2ad-2a01-5ec0-e001-adbe-216a-285b-14ce-2cdd.ngrok.io/{event}")
+            res = requests.get(f"https://tg.kootahkon.ir/bot{os.getenv('BOT_API')}/sendPhoto?chat_id=295600320&photo=https://f2ad-2a01-5ec0-e001-adbe-216a-285b-14ce-2cdd.ngrok.io/{event[-1]}&caption={datetime.now()}\nIntruder activity")
 
 if __name__ == "__main__":
     w = Watcher("activities")
