@@ -1,5 +1,9 @@
 import cv2
 from uuid import uuid4
+import requests
+import os
+
+tg_token = os.getenv("BOT_API")
 
 cam = cv2.VideoCapture(1)
 first_frame = None
