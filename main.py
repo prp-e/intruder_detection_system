@@ -3,11 +3,14 @@ from datetime import datetime
 from uuid import uuid4
 import os
 import requests
+import time
 
 tg_token = os.getenv("BOT_API")
 
 cam = cv2.VideoCapture(1)
 first_frame = None
+
+time.sleep(120)
 
 while cam.isOpened():
     _, frame = cam.read()
