@@ -31,7 +31,6 @@ class Handler(FileSystemEventHandler):
             print(event.src_path)
             event = event.src_path.split('/')
             res = requests.get(f"https://tg.kootahkon.ir/bot{os.getenv('BOT_API')}/sendPhoto?chat_id={os.getenv('CHAT_ID')}&photo={os.getenv('SERVER_ADDRESS')}/{event[-1]}&caption={datetime.now()}\nIntruder activity")
-            print(res.text)
 
 if __name__ == "__main__":
     w = Watcher("activities")
