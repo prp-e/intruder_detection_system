@@ -1,16 +1,22 @@
 import cv2
+from cv2 import VideoWriter, VideoWriter_fourcc
 from datetime import datetime
-from uuid import uuid4
-import os
-import requests
 import time
+import threading
+from uuid import uuid4
 
-tg_token = os.getenv("BOT_API")
+def make_video(temp_array):
+    video = VideoWriter('activities/' + datetime.now().strftime("%Y-%m-%d-%I-%M") + str(uuid4()) + '.avi', VideoWriter_fourcc(*'MJPG'), 24, (1280, 720))
+
+    for frame in temp_array:
+        video.write(frame)
+    
+    video.release()
 
 cam = cv2.VideoCapture(1)
 first_frame = None
 
-time.sleep(120)
+temp = []
 
 while cam.isOpened():
     _, frame = cam.read()
@@ -28,15 +34,17 @@ while cam.isOpened():
     cntrs, _ = cv2.findContours(threshold.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     for c in cntrs:
-        if cv2.contourArea(c) < 5000:
+        if cv2.contourArea(c) < 1000:
             continue
         else:
+            flag = True
             (x, y, w, h) = cv2.boundingRect(c)
             #cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
-            cv2.putText(frame, 'INTRUDER ACTIVIY',(0, 75), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2, cv2.LINE_AA)
-            picname = f'{str(datetime.timestamp(datetime.now()))}-{uuid4()}'
-            cv2.imwrite(f'activities/{picname}.jpg', frame)
-            
+            temp.append(frame)
+    
+    if len(temp) > 300:
+        make_video(temp)
+        temp = []
             
     cv2.imshow('Cam Footage', frame)
 
