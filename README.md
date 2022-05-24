@@ -9,6 +9,8 @@
 ## TODO
 
 - [ ] Write videos to mp4
+    - [ ] Can be done locally or remotely. Locally is better.
 - [ ] Upload videos to a remote server 
 - [ ] Design a file-removal mechanism 
 - [ ] Send videos to Telegram/WhatsApp/E-Mail/etc. 
+- [ ] Deploy current code to a Raspberry Pi
