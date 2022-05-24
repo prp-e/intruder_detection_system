@@ -27,10 +27,10 @@ class Watcher:
 class Handler(FileSystemEventHandler):
     @staticmethod
     def on_any_event(event):
-        if "jpg" in event.src_path:
+        if "avi" in event.src_path:
             print(event.src_path)
             event = event.src_path.split('/')
-            res = requests.get(f"https://tg.kootahkon.ir/bot{os.getenv('BOT_API')}/sendPhoto?chat_id={os.getenv('CHAT_ID')}&photo={os.getenv('SERVER_ADDRESS')}/{event[-1]}&caption={datetime.now()}\nIntruder activity")
+            res = requests.get(f"https://tg.kootahkon.ir/bot{os.getenv('BOT_API')}/sendVideo?chat_id={os.getenv('CHAT_ID')}&photo={os.getenv('SERVER_ADDRESS')}/{event[-1]}&caption={datetime.now()}\nIntruder activity")
 
 if __name__ == "__main__":
     w = Watcher("activities")
